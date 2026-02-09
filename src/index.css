@@ -33,6 +33,7 @@ body {
   min-height: 100vh;
   display: block;
   overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
 h1 {
@@ -59,6 +60,77 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* --- RESPONSIVE HERO SECTION --- */
+
+/* 1. Tampilan Default (Laptop/PC) */
+.hero-container {
+  max-width: 1300px; /* Lebar maksimal sedikit dikurangi biar lebih proporsional sebagai kartu */
+  width: 95%;        /* Gunakan persentase agar responsif di berbagai layar */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between !important;
+  gap: 20px; /* Jarak antar kolom kiri dan kanan */
+  padding: 50px 20px;
+
+  /* === PROPERTI BARU UNTUK EFEK KARTU TIMBUL === */
+ background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 45px;       /* 2. Membuat sudut kartu menjadi bulat dan halus */
+  padding: 100px 250px;             /* 3. Memberi jarak di dalam kartu agar konten tidak mepet */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* 4. BOX-SHADOW: Ini kunci efek timbulnya! */
+  /* Format: offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); 
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(15px);
+
+  gap: 20px;
+}
+
+.hero-right {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+/* 2. Tampilan KHUSUS HP (Layar kecil) */
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 30px;
+    /* padding-bottom: 50px; -> HAPUS INI, sudah tidak perlu */
+    padding: 30px; /* Padding di dalam kartu sedikit dikecilkan untuk HP */
+  }
+
+  .hero-right {
+    align-items: center !important;
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .hero-name {
+    font-size: 2.5rem !important; 
+  }
+  
+  .hero-bio {
+    font-size: 0.9rem !important;
+    padding: 0 10px;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -72,3 +144,149 @@ button:focus-visible {
   }
 }
 
+@keyframes float {
+  0% { transform: translateY(0px);}
+  50% { transform: translateY(-15px);}
+  100% { transform: translateY(0px);}
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.delay-1 {
+  animation-delay: 1s;
+} 
+
+/* ================= NAVBAR STYLING ================= */
+
+.navbar-container {
+ position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  transition: all 0.4s ease-in-out;
+  padding: 20px 0;
+  
+  /* Awalnya transparan total biar bersih */
+  background-color: #333; 
+  
+  /* Lengkungan bawah (Awalnya 0 atau mau langsung lengkung juga boleh) */
+  border-radius: 0 0 10px 10px;
+}
+
+/* Kalo mau pas discroll warnanya tetep sama atau beda dikit */
+.navbar-scrolled {
+  padding: 15px 0; 
+
+  /* KITA GANTI INI BIAR LEBIH BENING */
+  /* 0.3 artinya cuma 30% warnanya, 70% tembus pandang */
+  background-color: rgba(0, 0, 0, 0.3); 
+  
+  /* BLUR DIPERKUAT (Biar teks tetep kebaca walau background bening) */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  /* Bayangan tetep ada biar misah sama konten */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  /* Lengkungan Bawah */
+  border-radius: 0 0 25px 25px; 
+  
+  /* Border tipis banget biar ada batas kacanya */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* 3. WRAPPER (BIAR KONTEN DI TENGAH) */
+.navbar-wrapper {
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 4. LOGO */
+.navbar-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white; 
+  cursor: pointer;
+  font-family: 'Poppins';
+}
+
+/* 5. MENU LINKS (DESKTOP) */
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.navbar-links a {
+  font-family: 'Poppins';
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: 0.3s;
+  position: relative;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;             /* Awalnya lebarnya 0 (gak kelihatan) */
+  height: 2px;          /* Ketebalan garis */
+  bottom: 0;            /* Posisi di paling bawah */
+  left: 0;
+  background-color: #ffffff; /* Warna Garis (Putih) */
+  transition: width 0.3s ease-in-out; /* Animasi memanjang halus */
+}
+
+.navbar-links a:hover::after {
+  width: 100%;          /* Lebar jadi 100% (penuh) */
+}
+
+/* Opsional: Pas hover teksnya jadi putih terang juga */
+.navbar-links a:hover {
+  color: #ffffff; 
+}
+
+
+/* ================= RESPONSIVE NAVBAR (HP) ================= */
+@media (max-width: 768px) {
+  
+  /* 1. CONTAINER: Atur ulang padding biar gak terlalu lebar di HP */
+  .navbar-container, 
+  .navbar-scrolled {
+    padding: 15px 20px; /* Atas-bawah 15px, Kiri-kanan 20px */
+    /* Lengkungan tetap aman karena dia nempel di container utama */
+  }
+
+  /* 2. WRAPPER: Ubah jadi kolom (Logo di atas, Menu di bawah) */
+  .navbar-wrapper {
+    flex-direction: column; 
+    gap: 15px; /* Jarak antara Logo dan Menu */
+  }
+  
+  /* 3. LOGO: Pastikan ukurannya pas */
+  .navbar-logo {
+    font-size: 1.5rem;
+  }
+
+  /* 4. MENU LINKS: Kita bikin Rata Tengah & Bisa turun ke bawah (Wrap) */
+  .navbar-links {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Menu kumpul di tengah */
+    flex-wrap: wrap;         /* Kalau gak muat, otomatis turun baris baru */
+    gap: 20px;               /* Jarak antar tulisan menu */
+  }
+
+  /* 5. TULISAN MENU: Kecilin dikit biar muat */
+  .navbar-links a {
+    font-size: 0.9rem;       /* Ukuran font agak kecil */
+    padding-bottom: 3px;     /* Jarak garis bawah didipetin */
+  }
+}
